@@ -35,6 +35,8 @@ private slots:
      void mouseMoveEvent(QMouseEvent *event);
 
      void on_set_pushButton_clicked();
+     void FreeStylePolygon();
+     void Polygon();
 
 private:
     Ui::MainWindow *ui;

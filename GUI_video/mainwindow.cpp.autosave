@@ -37,12 +37,10 @@ void CallBackFunc(int event, int x, int y, int flags, void* userdata)
             pointList.push_back(pt);
 
         }
-
-
      }
      else if  ( event == EVENT_RBUTTONDOWN )
      {
-            destroy_selection_window_flag=1;
+          destroy_selection_window_flag=1;
           cout << "Right button of the mouse is clicked - position (" << x << ", " << y << ")" << endl;
 
      }
