@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -34,22 +35,27 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
+    QGridLayout *gridLayout;
+    QGroupBox *groupBox_4;
+    QGroupBox *groupBox_3;
+    QLabel *stream_label;
+    QLabel *Processed_stream_label;
+    QPushButton *Process_pushButton;
+    QPushButton *Stopstream_pushButton;
+    QPlainTextEdit *plainTextEdit;
+    QGroupBox *groupBox_2;
+    QLabel *Sizefilter_label;
+    QSlider *Sizefilter_horizontalSlider;
+    QLabel *pxl_label;
+    QSpinBox *pixel_spinBox;
+    QPushButton *set_pushButton;
     QGroupBox *groupBox;
     QVBoxLayout *verticalLayout;
     QRadioButton *Polygon_radioButton;
     QRadioButton *Freestyle_radioButton;
     QPushButton *Run_pushButton;
     QPushButton *Clear_ROI_pushButton;
-    QSlider *Sizefilter_horizontalSlider;
-    QLabel *Sizefilter_label;
-    QLabel *pxl_label;
-    QLabel *stream_label;
-    QPushButton *Process_pushButton;
-    QLabel *Processed_stream_label;
-    QPushButton *Stopstream_pushButton;
-    QPushButton *set_pushButton;
-    QPlainTextEdit *plainTextEdit;
-    QSpinBox *pixel_spinBox;
+    QLabel *label;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -58,13 +64,62 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(774, 463);
+        MainWindow->resize(788, 510);
         MainWindow->setMouseTracking(true);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        groupBox = new QGroupBox(centralWidget);
+        gridLayout = new QGridLayout(centralWidget);
+        gridLayout->setSpacing(6);
+        gridLayout->setContentsMargins(11, 11, 11, 11);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        groupBox_4 = new QGroupBox(centralWidget);
+        groupBox_4->setObjectName(QStringLiteral("groupBox_4"));
+        groupBox_3 = new QGroupBox(groupBox_4);
+        groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
+        groupBox_3->setGeometry(QRect(10, 40, 451, 251));
+        stream_label = new QLabel(groupBox_3);
+        stream_label->setObjectName(QStringLiteral("stream_label"));
+        stream_label->setGeometry(QRect(20, 30, 181, 171));
+        stream_label->setMouseTracking(false);
+        stream_label->setAutoFillBackground(true);
+        stream_label->setFrameShape(QFrame::Box);
+        Processed_stream_label = new QLabel(groupBox_3);
+        Processed_stream_label->setObjectName(QStringLiteral("Processed_stream_label"));
+        Processed_stream_label->setGeometry(QRect(250, 30, 181, 171));
+        Processed_stream_label->setMouseTracking(false);
+        Processed_stream_label->setAutoFillBackground(true);
+        Processed_stream_label->setFrameShape(QFrame::Box);
+        Process_pushButton = new QPushButton(groupBox_3);
+        Process_pushButton->setObjectName(QStringLiteral("Process_pushButton"));
+        Process_pushButton->setGeometry(QRect(120, 210, 96, 25));
+        Stopstream_pushButton = new QPushButton(groupBox_3);
+        Stopstream_pushButton->setObjectName(QStringLiteral("Stopstream_pushButton"));
+        Stopstream_pushButton->setGeometry(QRect(230, 210, 80, 25));
+        plainTextEdit = new QPlainTextEdit(groupBox_4);
+        plainTextEdit->setObjectName(QStringLiteral("plainTextEdit"));
+        plainTextEdit->setGeometry(QRect(0, 310, 761, 111));
+        groupBox_2 = new QGroupBox(groupBox_4);
+        groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
+        groupBox_2->setGeometry(QRect(510, 184, 251, 111));
+        Sizefilter_label = new QLabel(groupBox_2);
+        Sizefilter_label->setObjectName(QStringLiteral("Sizefilter_label"));
+        Sizefilter_label->setGeometry(QRect(10, 30, 71, 16));
+        Sizefilter_horizontalSlider = new QSlider(groupBox_2);
+        Sizefilter_horizontalSlider->setObjectName(QStringLiteral("Sizefilter_horizontalSlider"));
+        Sizefilter_horizontalSlider->setGeometry(QRect(80, 30, 161, 20));
+        Sizefilter_horizontalSlider->setOrientation(Qt::Horizontal);
+        pxl_label = new QLabel(groupBox_2);
+        pxl_label->setObjectName(QStringLiteral("pxl_label"));
+        pxl_label->setGeometry(QRect(10, 70, 41, 21));
+        pixel_spinBox = new QSpinBox(groupBox_2);
+        pixel_spinBox->setObjectName(QStringLiteral("pixel_spinBox"));
+        pixel_spinBox->setGeometry(QRect(70, 70, 71, 21));
+        set_pushButton = new QPushButton(groupBox_2);
+        set_pushButton->setObjectName(QStringLiteral("set_pushButton"));
+        set_pushButton->setGeometry(QRect(150, 70, 89, 25));
+        groupBox = new QGroupBox(groupBox_4);
         groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setGeometry(QRect(590, 0, 171, 151));
+        groupBox->setGeometry(QRect(550, 40, 191, 141));
         verticalLayout = new QVBoxLayout(groupBox);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
@@ -89,47 +144,17 @@ public:
 
         verticalLayout->addWidget(Clear_ROI_pushButton);
 
-        Sizefilter_horizontalSlider = new QSlider(centralWidget);
-        Sizefilter_horizontalSlider->setObjectName(QStringLiteral("Sizefilter_horizontalSlider"));
-        Sizefilter_horizontalSlider->setGeometry(QRect(590, 150, 161, 20));
-        Sizefilter_horizontalSlider->setOrientation(Qt::Horizontal);
-        Sizefilter_label = new QLabel(centralWidget);
-        Sizefilter_label->setObjectName(QStringLiteral("Sizefilter_label"));
-        Sizefilter_label->setGeometry(QRect(520, 150, 141, 16));
-        pxl_label = new QLabel(centralWidget);
-        pxl_label->setObjectName(QStringLiteral("pxl_label"));
-        pxl_label->setGeometry(QRect(610, 180, 41, 21));
-        stream_label = new QLabel(centralWidget);
-        stream_label->setObjectName(QStringLiteral("stream_label"));
-        stream_label->setGeometry(QRect(60, 40, 181, 171));
-        stream_label->setMouseTracking(false);
-        stream_label->setAutoFillBackground(true);
-        stream_label->setFrameShape(QFrame::Box);
-        Process_pushButton = new QPushButton(centralWidget);
-        Process_pushButton->setObjectName(QStringLiteral("Process_pushButton"));
-        Process_pushButton->setGeometry(QRect(190, 230, 89, 25));
-        Processed_stream_label = new QLabel(centralWidget);
-        Processed_stream_label->setObjectName(QStringLiteral("Processed_stream_label"));
-        Processed_stream_label->setGeometry(QRect(300, 40, 181, 171));
-        Processed_stream_label->setMouseTracking(false);
-        Processed_stream_label->setAutoFillBackground(true);
-        Processed_stream_label->setFrameShape(QFrame::Box);
-        Stopstream_pushButton = new QPushButton(centralWidget);
-        Stopstream_pushButton->setObjectName(QStringLiteral("Stopstream_pushButton"));
-        Stopstream_pushButton->setGeometry(QRect(290, 230, 89, 25));
-        set_pushButton = new QPushButton(centralWidget);
-        set_pushButton->setObjectName(QStringLiteral("set_pushButton"));
-        set_pushButton->setGeometry(QRect(600, 230, 89, 25));
-        plainTextEdit = new QPlainTextEdit(centralWidget);
-        plainTextEdit->setObjectName(QStringLiteral("plainTextEdit"));
-        plainTextEdit->setGeometry(QRect(20, 280, 711, 111));
-        pixel_spinBox = new QSpinBox(centralWidget);
-        pixel_spinBox->setObjectName(QStringLiteral("pixel_spinBox"));
-        pixel_spinBox->setGeometry(QRect(670, 180, 71, 21));
+        label = new QLabel(groupBox_4);
+        label->setObjectName(QStringLiteral("label"));
+        label->setGeometry(QRect(180, -10, 401, 41));
+        label->setFrameShape(QFrame::NoFrame);
+
+        gridLayout->addWidget(groupBox_4, 0, 0, 1, 1);
+
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 774, 22));
+        menuBar->setGeometry(QRect(0, 0, 788, 22));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -145,19 +170,23 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Video Analyser Beta 1.0", Q_NULLPTR));
+        groupBox_4->setTitle(QString());
+        groupBox_3->setTitle(QApplication::translate("MainWindow", "VideoOutPut", Q_NULLPTR));
+        stream_label->setText(QString());
+        Processed_stream_label->setText(QString());
+        Process_pushButton->setText(QApplication::translate("MainWindow", "Process/Play", Q_NULLPTR));
+        Stopstream_pushButton->setText(QApplication::translate("MainWindow", "Stop", Q_NULLPTR));
+        groupBox_2->setTitle(QApplication::translate("MainWindow", "Size and Pixel", Q_NULLPTR));
+        Sizefilter_label->setText(QApplication::translate("MainWindow", "Size Filter", Q_NULLPTR));
+        pxl_label->setText(QApplication::translate("MainWindow", "pixel", Q_NULLPTR));
+        set_pushButton->setText(QApplication::translate("MainWindow", "Set", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("MainWindow", "ROI", Q_NULLPTR));
         Polygon_radioButton->setText(QApplication::translate("MainWindow", "PolyGon", Q_NULLPTR));
         Freestyle_radioButton->setText(QApplication::translate("MainWindow", "FreeStyle", Q_NULLPTR));
         Run_pushButton->setText(QApplication::translate("MainWindow", "Run", Q_NULLPTR));
         Clear_ROI_pushButton->setText(QApplication::translate("MainWindow", "Clear ROI", Q_NULLPTR));
-        Sizefilter_label->setText(QApplication::translate("MainWindow", "Size Filter", Q_NULLPTR));
-        pxl_label->setText(QApplication::translate("MainWindow", "pixel", Q_NULLPTR));
-        stream_label->setText(QString());
-        Process_pushButton->setText(QApplication::translate("MainWindow", "Process/Play", Q_NULLPTR));
-        Processed_stream_label->setText(QString());
-        Stopstream_pushButton->setText(QApplication::translate("MainWindow", "Stop", Q_NULLPTR));
-        set_pushButton->setText(QApplication::translate("MainWindow", "Set", Q_NULLPTR));
+        label->setText(QString());
     } // retranslateUi
 
 };

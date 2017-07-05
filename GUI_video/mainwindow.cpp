@@ -98,6 +98,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->Sizefilter_horizontalSlider->setRange(2,100);
     ui->pixel_spinBox->setRange(2,100);
     ui->pixel_spinBox->setSuffix("Pixel");
+    ui->label->setStyleSheet("font: 18pt;");
+    ui->label->setAlignment(Qt::AlignCenter);
+
+    ui->label->setText("<i><u><b>Video Analyser Beta</b></u></i>");
 }
 
 MainWindow::~MainWindow()
@@ -264,6 +268,7 @@ void MainWindow::on_Process_pushButton_clicked()
 void MainWindow::on_Stopstream_pushButton_clicked()
 {
     cap.release();
+    ui->plainTextEdit->appendPlainText("*************************************************");
     ui->plainTextEdit->appendPlainText("DTRL");
 
     ui->plainTextEdit->appendPlainText("Slider value :"+QString::number(ui->Sizefilter_horizontalSlider->value()));
@@ -292,7 +297,11 @@ void MainWindow::on_Stopstream_pushButton_clicked()
 
          }
      }
+     ui->plainTextEdit->appendPlainText("*************************************************");
+     ui->plainTextEdit->appendPlainText("#################################################");
+    ui->plainTextEdit->appendHtml("www.tinyurl.com/sum1dtrl");
 
+    ui->plainTextEdit->appendPlainText("#################################################");
 }
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {   cout<<"From main window: ";
