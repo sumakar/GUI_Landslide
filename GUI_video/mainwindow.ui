@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>774</width>
-    <height>323</height>
+    <height>463</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -20,10 +20,10 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>593</x>
-      <y>10</y>
+      <x>590</x>
+      <y>0</y>
       <width>171</width>
-      <height>101</height>
+      <height>151</height>
      </rect>
     </property>
     <property name="title">
@@ -51,13 +51,20 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="Clear_ROI_pushButton">
+       <property name="text">
+        <string>Clear ROI</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
    <widget class="QSlider" name="Sizefilter_horizontalSlider">
     <property name="geometry">
      <rect>
-      <x>600</x>
-      <y>140</y>
+      <x>590</x>
+      <y>150</y>
       <width>161</width>
       <height>20</height>
      </rect>
@@ -69,8 +76,8 @@
    <widget class="QLabel" name="Sizefilter_label">
     <property name="geometry">
      <rect>
-      <x>600</x>
-      <y>120</y>
+      <x>520</x>
+      <y>150</y>
       <width>141</width>
       <height>16</height>
      </rect>
@@ -79,33 +86,10 @@
      <string>Size Filter</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
-    <property name="geometry">
-     <rect>
-      <x>600</x>
-      <y>180</y>
-      <width>113</width>
-      <height>25</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="Dpixel_label">
-    <property name="geometry">
-     <rect>
-      <x>600</x>
-      <y>160</y>
-      <width>67</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Pixel</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="pxl_label">
     <property name="geometry">
      <rect>
-      <x>720</x>
+      <x>610</x>
       <y>180</y>
       <width>41</width>
       <height>21</height>
@@ -125,7 +109,7 @@
      </rect>
     </property>
     <property name="mouseTracking">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="autoFillBackground">
      <bool>true</bool>
@@ -189,13 +173,33 @@
     <property name="geometry">
      <rect>
       <x>600</x>
-      <y>220</y>
+      <y>230</y>
       <width>89</width>
       <height>25</height>
      </rect>
     </property>
     <property name="text">
      <string>Set</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="plainTextEdit">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>280</y>
+      <width>711</width>
+      <height>111</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="pixel_spinBox">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>180</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
     </property>
    </widget>
   </widget>

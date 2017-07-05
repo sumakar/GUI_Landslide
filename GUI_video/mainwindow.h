@@ -38,6 +38,10 @@ private slots:
      void FreeStylePolygon();
      void Polygon();
 
+     void on_Clear_ROI_pushButton_clicked();
+
+     void on_pixel_spinBox_valueChanged(int arg1);
+
 private:
     Ui::MainWindow *ui;
 };
