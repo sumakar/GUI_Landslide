@@ -19,7 +19,7 @@ Mat frame,Q_frame;
 QMouseEvent *event_in_label;
 int slider_position,flag_clk=0,coun,destroy_selection_window_flag=0;
 int flag_VALUE_CHANGED=0;
-
+ Mat frame2 ;
 cv::vector<cv::Point> pointList,ptlst2;
 Point pt,pt1,pt2,ptd;
 
@@ -37,12 +37,10 @@ void CallBackFunc(int event, int x, int y, int flags, void* userdata)
             pointList.push_back(pt);
 
         }
-
-
      }
      else if  ( event == EVENT_RBUTTONDOWN )
      {
-            destroy_selection_window_flag=1;
+          destroy_selection_window_flag=1;
           cout << "Right button of the mouse is clicked - position (" << x << ", " << y << ")" << endl;
 
      }
@@ -104,6 +102,7 @@ MainWindow::~MainWindow()
 }
 void MainWindow::FreeStylePolygon()
 {
+    frame2= Mat::zeros(frame.rows,frame.cols, CV_8UC3);
    namedWindow("Selection Frame",CV_WINDOW_AUTOSIZE);
     coun=0;
 
@@ -137,11 +136,23 @@ void MainWindow::FreeStylePolygon()
 
    }
 
+    for(int j=0;j<ptlst2.size();j++){
+        circle( frame2, ptlst2[j], 2.0, Scalar( 255, 255, 255 ), -1, 8 );
+        if(flag_VALUE_CHANGED==2)
+        {int a=ptlst2.size();
+            line( frame2, ptlst2[a-1], ptlst2[0], Scalar( 255, 255, 255 ),  2, 8 );
+        }
+
+
+        }
+imshow("Selection Frame 2",frame2);
 }
 
 void MainWindow::Polygon()
 {
-   namedWindow("Selection Frame",CV_WINDOW_AUTOSIZE);
+frame2= Mat::zeros(frame.rows,frame.cols, CV_8UC3);
+
+  namedWindow("Selection Frame",CV_WINDOW_AUTOSIZE);
    while(1)
   {
      // Mat frame;
@@ -158,9 +169,9 @@ void MainWindow::Polygon()
           {
               pt1= pointList[i-1];
               pt2= pointList[i];
-              line( frame, pt1, pt2, Scalar( 255, 0, 0 ),  2, 8 );
+              line( frame, pt1, pt2, Scalar( 255,255 , 255 ),  2, 8 );
           }
-                 line( frame, pointList[coun-1], pointList[0], Scalar( 255, 0, 0 ),  2, 8 );
+                 line( frame, pointList[coun-1], pointList[0], Scalar( 255, 255,255 ),  2, 8 );
       imshow("Selection Frame",frame);
       }
 
@@ -183,14 +194,25 @@ void MainWindow::Polygon()
 
 
   }
+   if(pointList.size()>=2)
+     {    for(int i=1;i<coun;i++)
+         {
+             pt1= pointList[i-1];
+             pt2= pointList[i];
+             line( frame2, pt1, pt2, Scalar( 255, 255, 255 ),  2, 8 );
+         }
+                line( frame2, pointList[coun-1], pointList[0], Scalar( 255, 255, 255 ),  2, 8 );
 
-   for(int i=0;i<=pointList.size();i++)
+     }
+
+
+  /* for(int i=0;i<=pointList.size();i++)
              {int x,y;
                  pt1= pointList[i];
 x=pt1.x;y=pt1.y;
                  std::cout<<"coun = "<<coun<<"i "<<i<<" x= "<<x<<" y= "<<y<<endl;
 
-   }
+   }*/
 }
 
 void MainWindow::on_Run_pushButton_clicked()
@@ -242,34 +264,13 @@ void MainWindow::on_Process_pushButton_clicked()
 
 
     while(1)
-   {
-
-
-      bool bSuccess=cap.read(frame);
+   {  bool bSuccess=cap.read(frame);
                   if(!bSuccess)
                   {break;}
 
-                  if((pointList.size()>=2)&&( destroy_selection_window_flag==1))
-                    {    for(int i=1;i<coun;i++)
-                        {
-                            pt1= pointList[i-1];
-                            pt2= pointList[i];
-                            line( frame, pt1, pt2, Scalar( 255, 0, 0 ),  2, 8 );
-                        }
-                               line( frame, pointList[coun-1], pointList[0], Scalar( 255, 0, 0 ),  2, 8 );
+            //To select ROI
+            frame=frame+frame2;
 
-                    }
-                  if((pointList.size()>=2)&&( destroy_selection_window_flag==2))
-                    {                   for(int j=0;j<ptlst2.size();j++){
-
-                        circle( frame, ptlst2[j], 2.0, Scalar( 255, 0, 0 ), -1, 8 );
-
-                          if(flag_VALUE_CHANGED==2)
-                      {     int a=ptlst2.size();
-                            line( frame, ptlst2[a-1], ptlst2[0], Scalar( 255, 0, 0 ),  2, 8 );
-                      }
-                    }
-                    }
             //Frame 1 definitions
             cvtColor(frame,Q_frame,CV_BGR2RGB);
             QImage image1= QImage((uchar*) Q_frame.data, Q_frame.cols,Q_frame.rows, Q_frame.step, QImage::Format_RGB888);
@@ -288,11 +289,9 @@ void MainWindow::on_Process_pushButton_clicked()
                         //(mainWindow, mouseEvent->pos());
                 //cout<<event_in_label->x()<<"  "<<event_in_label->y()<<endl;
 
-            //These lines help to maintain a delay between frames and is ambient
-            //Donot DELETE THEM
 
-            char c = (char)waitKey(33);
-            if( c == 27 ) break;
+                    waitKey(33);
+
 
   }
 
