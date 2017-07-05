@@ -1,0 +1,23 @@
+The tutorials are just as an important part of the library as the implementation of those crafty data structures and algorithms you can find in OpenCV. Therefore, the source codes for the tutorials are part of the library. And yes, I meant source codes. The reason for this formulation is that the tutorials are written by using the Sphinx documentation generation system. This is based on the popular Python documentation system called reStructuredText (reST). ReStructuredText is a really neat language that by using a few simple conventions (indentation, directives) and emulating old school email writing techniques (text only) tries to offer a simple way to create and edit documents. Sphinx extends this with some new features and creates the resulting document in both HTML (for web) and PDF (for offline usage) format.
+
+Usually, an OpenCV tutorial has the following parts:
+
+        A source code demonstration of an OpenCV feature:
+
+            One or more CPP, Python, Java or other type of files depending for what OpenCV offers support and for what language you make the tutorial.
+            Occasionaly, input resource files required for running your tutorials application.
+
+        A table of content entry (so people may easily find the tutorial):
+
+            Adding your stuff to the tutorials table of content (reST file).
+            Add an image file near the TOC entry.
+
+        The content of the tutorial itself:
+
+            The reST text of the tutorial
+            Images following the idea that “A picture is worth a thousand words”.
+            For more complex demonstrations you may create a video.
+
+As you can see you will need at least some basic knowledge of the reST system in order to complete the task at hand with success. However, don’t worry: reST (and Sphinx) was made with simplicity in mind. It is easy to grasp its basics. I found that the OpenAlea documentations introduction on this subject (or the Thomas Cokelaer one) to be enough for this. If for some directive or feature you need a more in-depth description look it up in the official reStructuredText help files or at the Sphinx documentation.
+
+In our world, achieving some tasks is possible in multiple ways. However, some of the roads to take may have obvious or hidden advantages over others. Then again, in some other cases it may come down to just simple user preference. Here, I’ll present how I decided to write the tutorials, based on my personal experience. If for some of them you know a better solution and you can back it up feel free to use that. I’ve nothing against it, as long as it gets the job done in an elegant fashion
