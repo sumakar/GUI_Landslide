@@ -20,13 +20,13 @@ private slots:
 
     void on_Run_pushButton_clicked();
 
-    void on_Sizefilter_horizontalSlider_sliderMoved(int position);
+//    void on_Sizefilter_horizontalSlider_sliderMoved(int position);
 
-    void on_lineEdit_editingFinished();
+   // void on_lineEdit_editingFinished();
 
-    void on_lineEdit_returnPressed();
+   // void on_lineEdit_returnPressed();
 
-    void on_lineEdit_textEdited(const QString &arg1);
+    //void on_lineEdit_textEdited(const QString &arg1);
 
     void on_Process_pushButton_clicked();
 
@@ -41,6 +41,10 @@ private slots:
      void on_Clear_ROI_pushButton_clicked();
 
      void on_pixel_spinBox_valueChanged(int arg1);
+
+     void on_record_pushButton_toggled(bool checked);
+
+     void on_Process_pushButton_toggled(bool checked);
 
 private:
     Ui::MainWindow *ui;

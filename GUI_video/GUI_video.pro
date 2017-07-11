@@ -25,11 +25,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    logger.cpp
 
 HEADERS += \
         mainwindow.h \
-    roi_selection.h
+    roi_selection.h \
+    logger.h
 
 FORMS += \
         mainwindow.ui
