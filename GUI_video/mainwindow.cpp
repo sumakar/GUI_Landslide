@@ -6,28 +6,34 @@
 #include<QSlider>
 #include<QPixmap>
 #include<QMouseEvent>
+#include<QtGui>
 
 #include<logger.h>
 #include <ctime>
 #include "/usr/local/include/opencv2/opencv.hpp"
 #include "/usr/local/include/opencv2/highgui/highgui.hpp"
 #include "/usr/local/include/opencv/cv.h"
-
+#include </usr/local/include/opencv2/video/background_segm.hpp>
 using namespace std;
 using namespace cv;
 
-VideoCapture cap("/home/sumakar/gui trials/GUI_video/jl.mp4");
+VideoCapture cap(0);
 
-//VideoCapture cap1("/home/sumakar/gui trials/GUI_video/jl.mp4");
-Mat frame,Q_frame,cap1_frame;
+VideoCapture cap1("/home/sumakar/gui trials/GUI_video/jl.mp4");
+
+
+
+
+
+Mat frame,Q_frame,cap1_frame,cap1_Q_frame;
 QMouseEvent *event_in_label;
 bool checked_record;
-int flag_clk=0,coun,destroy_selection_window_flag=0;
+int flag_clk=0,coun,destroy_selection_window_flagP=0,destroy_selection_window_flagF=0;
 int flag_VALUE_CHANGED=0;
 Mat frame2 ;
 cv::vector<cv::Point> pointList,ptlst2;
 Point pt,pt1,pt2,ptd;
-
+int toggle=0;
 
 string path_to_save ="/home/sumakar/saved_videos/" ;
 int unused_variable=0;
@@ -67,7 +73,7 @@ void CallBackFunc(int event, int x, int y, int flags, void* userdata)
      }
      else if  ( event == EVENT_RBUTTONDOWN )
      {
-          destroy_selection_window_flag=1;
+          destroy_selection_window_flagP=1;
          // cout << "Right button of the mouse is clicked - position (" << x << ", " << y << ")" << endl;
 
      }
@@ -81,6 +87,7 @@ void CallBackFunc(int event, int x, int y, int flags, void* userdata)
     //          cout << "Mouse move over the window - position (" << x << ", " << y << ")" << endl;
 
      }
+    if(flags){if(userdata){}}
 }
 //For FreeStylePolyGon
 void CallBackFunc2(int event, int x, int y, int flags, void* userdata)
@@ -94,7 +101,7 @@ void CallBackFunc2(int event, int x, int y, int flags, void* userdata)
      }
      else if  ( event == EVENT_RBUTTONDOWN )
      {
-   destroy_selection_window_flag=2;
+   destroy_selection_window_flagF=2;
           //cout << "Right button of the mouse is clicked - position (" << x << ", " << y << ")" << endl;
 
      }
@@ -113,6 +120,7 @@ void CallBackFunc2(int event, int x, int y, int flags, void* userdata)
         ptlst2.push_back(ptd);
      }
          }
+    if(flags){if(userdata){}}
 }
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -123,7 +131,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     for(int i=0;i<=10;i++)
     {
-     ui->sizefilter_comboBox->addItem(QString::number(i));
+     ui->sizefilter_comboBox->addItem(QString::number(i)+" * "+QString::number(i));
+    }
+    for(int i=0;i<=10;i++)
+    {
+     ui->distance_comboBox->addItem(QString::number(i)+" Pixels ");
     }
    // ui->Sizefilter_horizontalSlider->setRange(2,100);
     ui->pixel_spinBox->setRange(2,100);
@@ -131,12 +143,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->label->setStyleSheet("font: 18pt;");
     ui->label->setAlignment(Qt::AlignCenter);
 
-    ui->label->setText("<i><u><b>Video Analyser Beta</b></u></i>");
+    ui->label->setText("<b>LandSlide Monitoring system</b>");
     ui->record_pushButton->setCheckable(true);
 
     ui->webcam_indicator_label->setStyleSheet("color: red;");
     ui->webcam_indicator_label->setText("Not Processing");
-
 
     ui->recording_indicator_label->setStyleSheet("color: red");
     ui->recording_indicator_label->setText("Not Recording");
@@ -145,7 +156,7 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 MainWindow::~MainWindow()
-{
+{   destroyAllWindows();
     delete ui;
 }
 
@@ -154,7 +165,7 @@ void MainWindow::FreeStylePolygon()
     frame2= Mat::zeros(frame.rows,frame.cols, CV_8UC3);
     namedWindow("Selection Frame",CV_WINDOW_AUTOSIZE);
     coun=0;
-
+destroy_selection_window_flagF=1;
     while(1)
    {
 
@@ -171,10 +182,9 @@ void MainWindow::FreeStylePolygon()
 
      imshow("Selection Frame",frame);
      }
-        setMouseCallback
-                ("Selection Frame", CallBackFunc2, NULL);
+        setMouseCallback("Selection Frame", CallBackFunc2, NULL);
         waitKey(30);
-        if(destroy_selection_window_flag==2)
+        if(destroy_selection_window_flagF==2)
         {
             destroyWindow("Selection Frame");
             break;
@@ -186,8 +196,9 @@ void MainWindow::FreeStylePolygon()
 void MainWindow::Polygon()
 {
 frame2= Mat::zeros(frame.rows,frame.cols, CV_8UC3);
-  namedWindow("Selection Frame",CV_WINDOW_AUTOSIZE);
-   while(1)
+namedWindow("Selection Frame",CV_WINDOW_AUTOSIZE);
+destroy_selection_window_flagP=2;
+while(1)
   {
 
     imshow("Selection Frame",frame);
@@ -201,17 +212,18 @@ frame2= Mat::zeros(frame.rows,frame.cols, CV_8UC3);
                }
 
                 line( frame, pointList[coun-1], pointList[0], Scalar( 255, 255,255 ),  2, 8 );
-                imshow("Selection Frame",frame);
+                imshow("Selection Frame",(frame));
       }
     setMouseCallback("Selection Frame", CallBackFunc, NULL);
     waitKey(30);
 
-       if(destroy_selection_window_flag==1)
+       if(destroy_selection_window_flagP==1)
        {
            destroyWindow("Selection Frame");
            break;
        }
   }
+
    if(pointList.size()>=2)
    {    for(int i=1;i<coun;i++)
          {
@@ -262,16 +274,35 @@ void MainWindow::on_Process_pushButton_clicked()
 {
 
     cap.open(0);
-    if(!cap.isOpened())
+    cap1.open("/home/sumakar/gui trials/GUI_video/jl.mp4");
+
+    if((!cap.isOpened())&&(!cap1.isOpened()))
            {      //   cout<<"camera or video not found /n";
     }
 
+cap.read(frame);
+cap1.read(cap1_frame);
 //imshow("Selection Frame",frame);
 VideoWriter video(path_to_save,CV_FOURCC('M','J','P','G'),30, Size(frame_width,frame_height),true);
      while(1)
-   {  bool bSuccess=cap.read(frame);
-                  if((!bSuccess))
-                  {break;}
+   {
+         if(toggle==0)
+         {  bool bSuccess=cap.read(frame);
+             bool b1Success=cap1.read(cap1_frame);
+
+             if((!bSuccess)){break; }
+
+              if((!b1Success)){ break;}
+           }
+         else
+         {  bool bSuccess=cap.read(cap1_frame);
+             bool b1Success=cap1.read(frame);
+
+             if((!bSuccess)){break; }
+
+              if((!b1Success)){ break;}
+           }
+
 
             ui->webcam_indicator_label->setStyleSheet("color: green");
             ui->webcam_indicator_label->setText("Processing");
@@ -302,14 +333,14 @@ VideoWriter video(path_to_save,CV_FOURCC('M','J','P','G'),30, Size(frame_width,f
             ui->Processed_stream_label->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
 
             //Frame  definitions summary1
-            cvtColor(frame,Q_frame,CV_BGR2GRAY);
-            QImage image3= QImage((uchar*) Q_frame.data, Q_frame.cols,Q_frame.rows, Q_frame.step, QImage::Format_Grayscale8);
+            cvtColor(cap1_frame,Q_frame,CV_BGR2RGB);
+            QImage image3= QImage((uchar*) Q_frame.data, Q_frame.cols,Q_frame.rows, Q_frame.step, QImage::Format_RGB888);
             ui->summary_label->setPixmap(QPixmap::fromImage(image3));
             ui->summary_label->setScaledContents( true );
             ui->summary_label->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
 
-            cvtColor(frame,Q_frame,CV_BGR2RGB);
-            QImage image4= QImage((uchar*) Q_frame.data, Q_frame.cols,Q_frame.rows, Q_frame.step, QImage::Format_RGBX8888);
+            cvtColor(cap1_frame,Q_frame,CV_BGR2GRAY);
+            QImage image4= QImage((uchar*) Q_frame.data, Q_frame.cols,Q_frame.rows, Q_frame.step, QImage::Format_Grayscale8);
             ui->summary_label2->setPixmap(QPixmap::fromImage(image4));
             ui->summary_label2->setScaledContents( true );
             ui->summary_label2->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
@@ -336,8 +367,9 @@ void MainWindow::on_Stopstream_pushButton_clicked()
    ui->plainTextEdit->appendPlainText("*************************************************");
     ui->plainTextEdit->appendPlainText("DTRL");
                                                         //+QString::number
-    ui->plainTextEdit->appendPlainText("Slider value :"+(ui->sizefilter_comboBox->currentText()));
-    ui->plainTextEdit->appendPlainText("Pixesl Size :"+QString::number(ui->pixel_spinBox->value())+" Pixels");
+    ui->plainTextEdit->appendPlainText ("Size Filter         :"+(ui->sizefilter_comboBox->currentText()));
+    ui->plainTextEdit->appendPlainText ("Distance Filter     :"+(ui->distance_comboBox->currentText()));
+    ui->plainTextEdit->appendPlainText ("Pixel Size          :"+QString::number(ui->pixel_spinBox->value())+" Pixels");
 
     ui->plainTextEdit->appendPlainText(" \nPoints Used in PolyGon :\n");
 /*
@@ -354,6 +386,7 @@ void MainWindow::on_Stopstream_pushButton_clicked()
                {int x,y;
                    pt1= pointList[i];
                     x=pt1.x;y=pt1.y;
+
             ui->plainTextEdit->appendPlainText( QString::number(i+1)+QString(" x = ")+QString::number(x)+QString(" y = ")+QString::number(y));
             //logger.write( QString::number(i+1)+QString(" x = ")+QString::number(x)+QString(" y = ")+QString::number(y));
 
@@ -361,14 +394,13 @@ void MainWindow::on_Stopstream_pushButton_clicked()
     }
     ui->plainTextEdit->appendPlainText(" \nPoints Used in FreeStyle PolyGon :\n");
    // logger.write(" \nPoints Used in FreeStyle PolyGon :\n");
-
-
     if(ptlst2.size()!=0)
      {
          for(int i=0;i<=ptlst2.size();i++)
                    {int x,y;
                        pt1= ptlst2[i];
                         x=pt1.x;y=pt1.y;
+
                 ui->plainTextEdit->appendPlainText( QString::number(i+1)+QString(" x = ")+QString::number(x)+QString(" y = ")+QString::number(y));
                // logger.write( QString::number(i+1)+QString(" x = ")+QString::number(x)+QString(" y = ")+QString::number(y));
 
@@ -397,8 +429,9 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
 
 void MainWindow::on_set_pushButton_clicked()
 {                                                   //QString::number
-    ui->plainTextEdit->appendPlainText("Slider value :"+(ui->sizefilter_comboBox->currentText()));
-    ui->plainTextEdit->appendPlainText("Pixesl Size :"+QString::number(ui->pixel_spinBox->value())+" Pixels");
+    ui->plainTextEdit->appendPlainText ("Size Filter         :"+(ui->sizefilter_comboBox->currentText()));
+    ui->plainTextEdit->appendPlainText ("Distance Filter :"+(ui->distance_comboBox->currentText()));
+    ui->plainTextEdit->appendPlainText ("Pixel Size          :"+QString::number(ui->pixel_spinBox->value())+" Pixels");
 
    /* QString print_pixel_val= ui->Dpixel_label->text();
     int print_pixel_val2= ui->Dpixel_label->text().toInt();
@@ -425,12 +458,17 @@ void MainWindow::on_Clear_ROI_pushButton_clicked()
 {
 
     frame2= Mat::zeros(frame.rows,frame.cols, CV_8UC3);
+    pointList.erase(pointList.begin(),pointList.end());
+    ptlst2.erase(ptlst2.begin(),ptlst2.end());
+
+
+
 }
 
 
 void MainWindow::on_record_pushButton_toggled(bool checked)
 {
-    if(checked)
+    if(checked==true)
     { checked_record=true;
 
                 ui->recording_indicator_label->setStyleSheet("color: green");
@@ -438,7 +476,7 @@ void MainWindow::on_record_pushButton_toggled(bool checked)
 
         //video.write(frame);
     }
-    if(!checked)
+    if(checked==false)
     {checked_record=false;
 
         ui->recording_indicator_label->setStyleSheet("color: red");
@@ -449,3 +487,13 @@ void MainWindow::on_record_pushButton_toggled(bool checked)
 }
 
 
+
+void MainWindow::on_toggle_stream_pushButton_clicked()
+{
+    if(toggle==0)
+    {toggle=1;}
+    else
+    {toggle=0;}
+
+
+}

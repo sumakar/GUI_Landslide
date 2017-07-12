@@ -14,8 +14,6 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QComboBox>
-#include <QtWidgets/QFrame>
-#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
@@ -37,10 +35,9 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
-    QHBoxLayout *horizontalLayout_7;
     QGroupBox *groupBox_4;
     QGroupBox *groupBox_3;
-    QWidget *widget;
+    QWidget *layoutWidget;
     QVBoxLayout *verticalLayout_2;
     QHBoxLayout *horizontalLayout;
     QPushButton *Process_pushButton;
@@ -48,34 +45,47 @@ public:
     QHBoxLayout *horizontalLayout_2;
     QPushButton *set_pushButton;
     QPushButton *record_pushButton;
-    QWidget *widget1;
-    QGridLayout *gridLayout_2;
-    QLabel *stream_label;
-    QLabel *summary_label;
-    QLabel *Processed_stream_label;
-    QLabel *summary_label2;
     QPlainTextEdit *plainTextEdit;
+    QWidget *layoutWidget1;
+    QHBoxLayout *horizontalLayout_9;
+    QLabel *stream_label;
+    QLabel *Processed_stream_label;
+    QWidget *widget;
+    QHBoxLayout *horizontalLayout_6;
+    QLabel *label_2;
+    QPushButton *toggle_stream_pushButton;
+    QLabel *label_4;
     QLabel *label;
     QGroupBox *groupBox;
     QVBoxLayout *verticalLayout;
-    QLabel *ROI_label;
     QHBoxLayout *_3;
     QRadioButton *Freestyle_radioButton;
     QRadioButton *Polygon_radioButton;
     QHBoxLayout *_2;
     QPushButton *Run_pushButton;
     QPushButton *Clear_ROI_pushButton;
-    QFrame *line;
-    QLabel *Filter_label;
-    QHBoxLayout *horizontalLayout_5;
+    QWidget *layoutWidget2;
+    QHBoxLayout *horizontalLayout_4;
+    QGroupBox *groupBox_5;
+    QWidget *layoutWidget3;
+    QHBoxLayout *horizontalLayout_8;
+    QLabel *label_3;
+    QComboBox *distance_comboBox;
+    QGroupBox *groupBox_2;
+    QWidget *layoutWidget4;
+    QVBoxLayout *verticalLayout_3;
     QHBoxLayout *horizontalLayout_3;
     QLabel *Sizefilter_label;
     QComboBox *sizefilter_comboBox;
-    QHBoxLayout *horizontalLayout_4;
+    QHBoxLayout *horizontalLayout_5;
     QLabel *pxl_label;
     QSpinBox *pixel_spinBox;
-    QWidget *widget2;
-    QHBoxLayout *horizontalLayout_6;
+    QWidget *layoutWidget5;
+    QHBoxLayout *horizontalLayout_7;
+    QLabel *summary_label;
+    QLabel *summary_label2;
+    QWidget *layoutWidget6;
+    QVBoxLayout *verticalLayout_4;
     QLabel *webcam_indicator_label;
     QLabel *recording_indicator_label;
     QMenuBar *menuBar;
@@ -86,23 +96,20 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(788, 649);
+        MainWindow->resize(1174, 654);
         MainWindow->setMouseTracking(true);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        horizontalLayout_7 = new QHBoxLayout(centralWidget);
-        horizontalLayout_7->setSpacing(6);
-        horizontalLayout_7->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
         groupBox_4 = new QGroupBox(centralWidget);
         groupBox_4->setObjectName(QStringLiteral("groupBox_4"));
+        groupBox_4->setGeometry(QRect(9, 9, 1156, 575));
         groupBox_3 = new QGroupBox(groupBox_4);
         groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
-        groupBox_3->setGeometry(QRect(20, 40, 451, 511));
-        widget = new QWidget(groupBox_3);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(10, 420, 431, 62));
-        verticalLayout_2 = new QVBoxLayout(widget);
+        groupBox_3->setGeometry(QRect(10, 10, 721, 551));
+        layoutWidget = new QWidget(groupBox_3);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        layoutWidget->setGeometry(QRect(30, 360, 661, 71));
+        verticalLayout_2 = new QVBoxLayout(layoutWidget);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
@@ -110,12 +117,12 @@ public:
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        Process_pushButton = new QPushButton(widget);
+        Process_pushButton = new QPushButton(layoutWidget);
         Process_pushButton->setObjectName(QStringLiteral("Process_pushButton"));
 
         horizontalLayout->addWidget(Process_pushButton);
 
-        Stopstream_pushButton = new QPushButton(widget);
+        Stopstream_pushButton = new QPushButton(layoutWidget);
         Stopstream_pushButton->setObjectName(QStringLiteral("Stopstream_pushButton"));
 
         horizontalLayout->addWidget(Stopstream_pushButton);
@@ -126,12 +133,12 @@ public:
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        set_pushButton = new QPushButton(widget);
+        set_pushButton = new QPushButton(layoutWidget);
         set_pushButton->setObjectName(QStringLiteral("set_pushButton"));
 
         horizontalLayout_2->addWidget(set_pushButton);
 
-        record_pushButton = new QPushButton(widget);
+        record_pushButton = new QPushButton(layoutWidget);
         record_pushButton->setObjectName(QStringLiteral("record_pushButton"));
 
         horizontalLayout_2->addWidget(record_pushButton);
@@ -139,66 +146,70 @@ public:
 
         verticalLayout_2->addLayout(horizontalLayout_2);
 
-        widget1 = new QWidget(groupBox_3);
-        widget1->setObjectName(QStringLiteral("widget1"));
-        widget1->setGeometry(QRect(11, 21, 421, 391));
-        gridLayout_2 = new QGridLayout(widget1);
-        gridLayout_2->setSpacing(6);
-        gridLayout_2->setContentsMargins(11, 11, 11, 11);
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        gridLayout_2->setContentsMargins(0, 0, 0, 0);
-        stream_label = new QLabel(widget1);
+        plainTextEdit = new QPlainTextEdit(groupBox_3);
+        plainTextEdit->setObjectName(QStringLiteral("plainTextEdit"));
+        plainTextEdit->setGeometry(QRect(30, 430, 661, 111));
+        layoutWidget1 = new QWidget(groupBox_3);
+        layoutWidget1->setObjectName(QStringLiteral("layoutWidget1"));
+        layoutWidget1->setGeometry(QRect(30, 30, 661, 281));
+        horizontalLayout_9 = new QHBoxLayout(layoutWidget1);
+        horizontalLayout_9->setSpacing(6);
+        horizontalLayout_9->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
+        horizontalLayout_9->setContentsMargins(0, 0, 0, 0);
+        stream_label = new QLabel(layoutWidget1);
         stream_label->setObjectName(QStringLiteral("stream_label"));
         stream_label->setMouseTracking(false);
         stream_label->setAutoFillBackground(true);
         stream_label->setFrameShape(QFrame::Box);
 
-        gridLayout_2->addWidget(stream_label, 0, 0, 1, 1);
+        horizontalLayout_9->addWidget(stream_label);
 
-        summary_label = new QLabel(widget1);
-        summary_label->setObjectName(QStringLiteral("summary_label"));
-        summary_label->setMouseTracking(false);
-        summary_label->setAutoFillBackground(true);
-        summary_label->setFrameShape(QFrame::Box);
-
-        gridLayout_2->addWidget(summary_label, 1, 0, 1, 1);
-
-        Processed_stream_label = new QLabel(widget1);
+        Processed_stream_label = new QLabel(layoutWidget1);
         Processed_stream_label->setObjectName(QStringLiteral("Processed_stream_label"));
         Processed_stream_label->setMouseTracking(false);
         Processed_stream_label->setAutoFillBackground(true);
         Processed_stream_label->setFrameShape(QFrame::Box);
 
-        gridLayout_2->addWidget(Processed_stream_label, 0, 1, 1, 1);
+        horizontalLayout_9->addWidget(Processed_stream_label);
 
-        summary_label2 = new QLabel(widget1);
-        summary_label2->setObjectName(QStringLiteral("summary_label2"));
-        summary_label2->setMouseTracking(false);
-        summary_label2->setAutoFillBackground(true);
-        summary_label2->setFrameShape(QFrame::Box);
+        widget = new QWidget(groupBox_3);
+        widget->setObjectName(QStringLiteral("widget"));
+        widget->setGeometry(QRect(100, 320, 511, 31));
+        horizontalLayout_6 = new QHBoxLayout(widget);
+        horizontalLayout_6->setSpacing(6);
+        horizontalLayout_6->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
+        horizontalLayout_6->setContentsMargins(0, 0, 0, 0);
+        label_2 = new QLabel(widget);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setAlignment(Qt::AlignCenter);
 
-        gridLayout_2->addWidget(summary_label2, 1, 1, 1, 1);
+        horizontalLayout_6->addWidget(label_2);
 
-        plainTextEdit = new QPlainTextEdit(groupBox_4);
-        plainTextEdit->setObjectName(QStringLiteral("plainTextEdit"));
-        plainTextEdit->setGeometry(QRect(480, 270, 281, 281));
+        toggle_stream_pushButton = new QPushButton(widget);
+        toggle_stream_pushButton->setObjectName(QStringLiteral("toggle_stream_pushButton"));
+
+        horizontalLayout_6->addWidget(toggle_stream_pushButton);
+
+        label_4 = new QLabel(widget);
+        label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_6->addWidget(label_4);
+
         label = new QLabel(groupBox_4);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(0, -10, 771, 41));
         label->setFrameShape(QFrame::NoFrame);
         groupBox = new QGroupBox(groupBox_4);
         groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setGeometry(QRect(480, 90, 281, 171));
+        groupBox->setGeometry(QRect(930, 40, 204, 111));
+        groupBox->setAlignment(Qt::AlignCenter);
         verticalLayout = new QVBoxLayout(groupBox);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        ROI_label = new QLabel(groupBox);
-        ROI_label->setObjectName(QStringLiteral("ROI_label"));
-        ROI_label->setAlignment(Qt::AlignCenter);
-
-        verticalLayout->addWidget(ROI_label);
-
         _3 = new QHBoxLayout();
         _3->setSpacing(6);
         _3->setObjectName(QStringLiteral("_3"));
@@ -231,70 +242,117 @@ public:
 
         verticalLayout->addLayout(_2);
 
-        line = new QFrame(groupBox);
-        line->setObjectName(QStringLiteral("line"));
-        line->setFrameShape(QFrame::HLine);
-        line->setFrameShadow(QFrame::Sunken);
+        layoutWidget2 = new QWidget(groupBox_4);
+        layoutWidget2->setObjectName(QStringLiteral("layoutWidget2"));
+        layoutWidget2->setGeometry(QRect(750, 160, 401, 141));
+        horizontalLayout_4 = new QHBoxLayout(layoutWidget2);
+        horizontalLayout_4->setSpacing(6);
+        horizontalLayout_4->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
+        groupBox_5 = new QGroupBox(layoutWidget2);
+        groupBox_5->setObjectName(QStringLiteral("groupBox_5"));
+        groupBox_5->setAlignment(Qt::AlignCenter);
+        layoutWidget3 = new QWidget(groupBox_5);
+        layoutWidget3->setObjectName(QStringLiteral("layoutWidget3"));
+        layoutWidget3->setGeometry(QRect(11, 53, 153, 27));
+        horizontalLayout_8 = new QHBoxLayout(layoutWidget3);
+        horizontalLayout_8->setSpacing(6);
+        horizontalLayout_8->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
+        horizontalLayout_8->setContentsMargins(0, 0, 0, 0);
+        label_3 = new QLabel(layoutWidget3);
+        label_3->setObjectName(QStringLiteral("label_3"));
 
-        verticalLayout->addWidget(line);
+        horizontalLayout_8->addWidget(label_3);
 
-        Filter_label = new QLabel(groupBox);
-        Filter_label->setObjectName(QStringLiteral("Filter_label"));
-        Filter_label->setLayoutDirection(Qt::LeftToRight);
-        Filter_label->setAlignment(Qt::AlignCenter);
+        distance_comboBox = new QComboBox(layoutWidget3);
+        distance_comboBox->setObjectName(QStringLiteral("distance_comboBox"));
 
-        verticalLayout->addWidget(Filter_label);
+        horizontalLayout_8->addWidget(distance_comboBox);
 
-        horizontalLayout_5 = new QHBoxLayout();
-        horizontalLayout_5->setSpacing(6);
-        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+
+        horizontalLayout_4->addWidget(groupBox_5);
+
+        groupBox_2 = new QGroupBox(layoutWidget2);
+        groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
+        groupBox_2->setAlignment(Qt::AlignCenter);
+        layoutWidget4 = new QWidget(groupBox_2);
+        layoutWidget4->setObjectName(QStringLiteral("layoutWidget4"));
+        layoutWidget4->setGeometry(QRect(10, 34, 161, 101));
+        verticalLayout_3 = new QVBoxLayout(layoutWidget4);
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        verticalLayout_3->setContentsMargins(0, 0, 0, 0);
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setSpacing(6);
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        Sizefilter_label = new QLabel(groupBox);
+        Sizefilter_label = new QLabel(layoutWidget4);
         Sizefilter_label->setObjectName(QStringLiteral("Sizefilter_label"));
 
         horizontalLayout_3->addWidget(Sizefilter_label);
 
-        sizefilter_comboBox = new QComboBox(groupBox);
+        sizefilter_comboBox = new QComboBox(layoutWidget4);
         sizefilter_comboBox->setObjectName(QStringLiteral("sizefilter_comboBox"));
 
         horizontalLayout_3->addWidget(sizefilter_comboBox);
 
 
-        horizontalLayout_5->addLayout(horizontalLayout_3);
+        verticalLayout_3->addLayout(horizontalLayout_3);
 
-        horizontalLayout_4 = new QHBoxLayout();
-        horizontalLayout_4->setSpacing(6);
-        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
-        pxl_label = new QLabel(groupBox);
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setSpacing(6);
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        pxl_label = new QLabel(layoutWidget4);
         pxl_label->setObjectName(QStringLiteral("pxl_label"));
 
-        horizontalLayout_4->addWidget(pxl_label);
+        horizontalLayout_5->addWidget(pxl_label);
 
-        pixel_spinBox = new QSpinBox(groupBox);
+        pixel_spinBox = new QSpinBox(layoutWidget4);
         pixel_spinBox->setObjectName(QStringLiteral("pixel_spinBox"));
 
-        horizontalLayout_4->addWidget(pixel_spinBox);
+        horizontalLayout_5->addWidget(pixel_spinBox);
 
 
-        horizontalLayout_5->addLayout(horizontalLayout_4);
+        verticalLayout_3->addLayout(horizontalLayout_5);
 
 
-        verticalLayout->addLayout(horizontalLayout_5);
+        horizontalLayout_4->addWidget(groupBox_2);
 
-        line->raise();
-        ROI_label->raise();
-        Filter_label->raise();
-        widget2 = new QWidget(groupBox_4);
-        widget2->setObjectName(QStringLiteral("widget2"));
-        widget2->setGeometry(QRect(480, 60, 271, 31));
-        horizontalLayout_6 = new QHBoxLayout(widget2);
-        horizontalLayout_6->setSpacing(6);
-        horizontalLayout_6->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
-        horizontalLayout_6->setContentsMargins(0, 0, 0, 0);
-        webcam_indicator_label = new QLabel(widget2);
+        layoutWidget5 = new QWidget(groupBox_4);
+        layoutWidget5->setObjectName(QStringLiteral("layoutWidget5"));
+        layoutWidget5->setGeometry(QRect(750, 310, 391, 231));
+        horizontalLayout_7 = new QHBoxLayout(layoutWidget5);
+        horizontalLayout_7->setSpacing(6);
+        horizontalLayout_7->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
+        horizontalLayout_7->setContentsMargins(0, 0, 0, 0);
+        summary_label = new QLabel(layoutWidget5);
+        summary_label->setObjectName(QStringLiteral("summary_label"));
+        summary_label->setMouseTracking(false);
+        summary_label->setAutoFillBackground(true);
+        summary_label->setFrameShape(QFrame::Box);
+
+        horizontalLayout_7->addWidget(summary_label);
+
+        summary_label2 = new QLabel(layoutWidget5);
+        summary_label2->setObjectName(QStringLiteral("summary_label2"));
+        summary_label2->setMouseTracking(false);
+        summary_label2->setAutoFillBackground(true);
+        summary_label2->setFrameShape(QFrame::Box);
+
+        horizontalLayout_7->addWidget(summary_label2);
+
+        layoutWidget6 = new QWidget(groupBox_4);
+        layoutWidget6->setObjectName(QStringLiteral("layoutWidget6"));
+        layoutWidget6->setGeometry(QRect(760, 70, 151, 71));
+        verticalLayout_4 = new QVBoxLayout(layoutWidget6);
+        verticalLayout_4->setSpacing(6);
+        verticalLayout_4->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
+        verticalLayout_4->setContentsMargins(0, 0, 0, 0);
+        webcam_indicator_label = new QLabel(layoutWidget6);
         webcam_indicator_label->setObjectName(QStringLiteral("webcam_indicator_label"));
         QFont font;
         font.setFamily(QStringLiteral("Waree"));
@@ -302,31 +360,26 @@ public:
         webcam_indicator_label->setFrameShape(QFrame::Box);
         webcam_indicator_label->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout_6->addWidget(webcam_indicator_label);
+        verticalLayout_4->addWidget(webcam_indicator_label);
 
-        recording_indicator_label = new QLabel(widget2);
+        recording_indicator_label = new QLabel(layoutWidget6);
         recording_indicator_label->setObjectName(QStringLiteral("recording_indicator_label"));
         recording_indicator_label->setFont(font);
         recording_indicator_label->setFrameShape(QFrame::Box);
         recording_indicator_label->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout_6->addWidget(recording_indicator_label);
+        verticalLayout_4->addWidget(recording_indicator_label);
 
-        plainTextEdit->raise();
+        layoutWidget->raise();
+        layoutWidget->raise();
+        layoutWidget->raise();
         label->raise();
         groupBox->raise();
         groupBox_3->raise();
-        webcam_indicator_label->raise();
-        recording_indicator_label->raise();
-        webcam_indicator_label->raise();
-        recording_indicator_label->raise();
-
-        horizontalLayout_7->addWidget(groupBox_4);
-
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 788, 22));
+        menuBar->setGeometry(QRect(0, 0, 1174, 22));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -344,25 +397,29 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Video Analyser Beta 1.0", Q_NULLPTR));
         groupBox_4->setTitle(QString());
-        groupBox_3->setTitle(QApplication::translate("MainWindow", "VideoOutPut", Q_NULLPTR));
+        groupBox_3->setTitle(QString());
         Process_pushButton->setText(QApplication::translate("MainWindow", "Process/Play", Q_NULLPTR));
         Stopstream_pushButton->setText(QApplication::translate("MainWindow", "Stop", Q_NULLPTR));
         set_pushButton->setText(QApplication::translate("MainWindow", "Set Filter", Q_NULLPTR));
         record_pushButton->setText(QApplication::translate("MainWindow", "Record", Q_NULLPTR));
         stream_label->setText(QString());
-        summary_label->setText(QString());
         Processed_stream_label->setText(QString());
-        summary_label2->setText(QString());
+        label_2->setText(QApplication::translate("MainWindow", "Webcam", Q_NULLPTR));
+        toggle_stream_pushButton->setText(QApplication::translate("MainWindow", "Toggle", Q_NULLPTR));
+        label_4->setText(QApplication::translate("MainWindow", "Processed", Q_NULLPTR));
         label->setText(QString());
-        groupBox->setTitle(QString());
-        ROI_label->setText(QApplication::translate("MainWindow", "ROI", Q_NULLPTR));
+        groupBox->setTitle(QApplication::translate("MainWindow", "ROI", Q_NULLPTR));
         Freestyle_radioButton->setText(QApplication::translate("MainWindow", "FreeStyle", Q_NULLPTR));
         Polygon_radioButton->setText(QApplication::translate("MainWindow", "PolyGon", Q_NULLPTR));
         Run_pushButton->setText(QApplication::translate("MainWindow", "Run", Q_NULLPTR));
         Clear_ROI_pushButton->setText(QApplication::translate("MainWindow", "Clear ROI", Q_NULLPTR));
-        Filter_label->setText(QApplication::translate("MainWindow", "Filter", Q_NULLPTR));
+        groupBox_5->setTitle(QApplication::translate("MainWindow", "Distance Filter", Q_NULLPTR));
+        label_3->setText(QApplication::translate("MainWindow", "Distance", Q_NULLPTR));
+        groupBox_2->setTitle(QApplication::translate("MainWindow", "Size Filter", Q_NULLPTR));
         Sizefilter_label->setText(QApplication::translate("MainWindow", "Size ", Q_NULLPTR));
         pxl_label->setText(QApplication::translate("MainWindow", "Pixel", Q_NULLPTR));
+        summary_label->setText(QString());
+        summary_label2->setText(QString());
         webcam_indicator_label->setText(QString());
         recording_indicator_label->setText(QString());
     } // retranslateUi

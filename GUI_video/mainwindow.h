@@ -40,11 +40,13 @@ private slots:
 
      void on_Clear_ROI_pushButton_clicked();
 
-     void on_pixel_spinBox_valueChanged(int arg1);
+     //void on_pixel_spinBox_valueChanged(int arg1);
 
      void on_record_pushButton_toggled(bool checked);
 
-     void on_Process_pushButton_toggled(bool checked);
+    // void on_Process_pushButton_toggled(bool checked);
+
+     void on_toggle_stream_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
