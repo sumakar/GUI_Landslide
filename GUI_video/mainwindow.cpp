@@ -19,13 +19,15 @@ using namespace cv;
 
 VideoCapture cap(0);
 
-VideoCapture cap1("/home/sumakar/gui trials/GUI_video/jl.mp4");
+//VideoCapture cap1("/home/sumakar/gui trials/GUI_video/jl.mp4");
 
 
 
 
 
-Mat frame,Q_frame,cap1_frame,cap1_Q_frame;
+Mat frame,Q_frame,cap1_frame,cap1_Q_frame,Q_frame2;
+Mat prev_frame,next_frame,current_frame,d1,d2,result;
+
 QMouseEvent *event_in_label;
 bool checked_record;
 int flag_clk=0,coun,destroy_selection_window_flagP=0,destroy_selection_window_flagF=0;
@@ -143,7 +145,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->label->setStyleSheet("font: 18pt;");
     ui->label->setAlignment(Qt::AlignCenter);
 
-    ui->label->setText("<b>LandSlide Monitoring system</b>");
+    ui->label->setText("<b>LMS</b>");
     ui->record_pushButton->setCheckable(true);
 
     ui->webcam_indicator_label->setStyleSheet("color: red;");
@@ -152,6 +154,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->recording_indicator_label->setStyleSheet("color: red");
     ui->recording_indicator_label->setText("Not Recording");
 
+
+    ui->alert_label->setStyleSheet("QLabel { background-color : green; color : blue; }");
    time_stamp();
 }
 
@@ -274,45 +278,47 @@ void MainWindow::on_Process_pushButton_clicked()
 {
 
     cap.open(0);
-    cap1.open("/home/sumakar/gui trials/GUI_video/jl.mp4");
-
-    if((!cap.isOpened())&&(!cap1.isOpened()))
+    if(!cap.isOpened())//&&(!cap1.isOpened()))
            {      //   cout<<"camera or video not found /n";
     }
 
-cap.read(frame);
-cap1.read(cap1_frame);
-//imshow("Selection Frame",frame);
+cap.read(prev_frame);
+waitKey(30);
+
 VideoWriter video(path_to_save,CV_FOURCC('M','J','P','G'),30, Size(frame_width,frame_height),true);
      while(1)
    {
-         if(toggle==0)
-         {  bool bSuccess=cap.read(frame);
-             bool b1Success=cap1.read(cap1_frame);
+              bool bSuccess=cap.read(frame);
 
              if((!bSuccess)){break; }
-
-              if((!b1Success)){ break;}
-           }
-         else
-         {  bool bSuccess=cap.read(cap1_frame);
-             bool b1Success=cap1.read(frame);
-
-             if((!bSuccess)){break; }
-
-              if((!b1Success)){ break;}
-           }
-
 
             ui->webcam_indicator_label->setStyleSheet("color: green");
             ui->webcam_indicator_label->setText("Processing");
 
-            imshow("Selection Frame",frame);
 
             if(checked_record)
             {
-                video.write(frame);
+            //    video.write(frame);
             }
+
+            /*BCG code*/
+          //  cap.read(current_frame);
+         //   waitKey(30);
+            cap.read(next_frame);
+
+            absdiff(prev_frame, next_frame, d1);
+            absdiff(frame, next_frame, d2);
+
+            waitKey(33);
+            bitwise_and(d1, d2, result);
+            waitKey(33);
+            threshold(result, result, 50, 255, CV_THRESH_BINARY);
+            next_frame.copyTo(prev_frame);
+            imshow("Selection Frame",frame);
+
+            /**/
+
+
 
             //To select ROI
             frame=frame+frame2;
@@ -326,27 +332,28 @@ VideoWriter video(path_to_save,CV_FOURCC('M','J','P','G'),30, Size(frame_width,f
             ui->stream_label->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
 
             //Frame 2 definitions i.e processed
-            cvtColor(frame,Q_frame,CV_BGR2GRAY);
-            QImage image2= QImage((uchar*) Q_frame.data, Q_frame.cols,Q_frame.rows, Q_frame.step, QImage::Format_Grayscale8);
+            cvtColor(result,Q_frame,CV_BGR2RGB);
+            QImage image2= QImage((uchar*) Q_frame.data, Q_frame.cols,Q_frame.rows, Q_frame.step, QImage::Format_RGB888);
             ui->Processed_stream_label->setPixmap(QPixmap::fromImage(image2));
             ui->Processed_stream_label->setScaledContents( true );
             ui->Processed_stream_label->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
-
+/*
             //Frame  definitions summary1
-            cvtColor(cap1_frame,Q_frame,CV_BGR2RGB);
+            cvtColor(frame,Q_frame,CV_BGR2RGB);
             QImage image3= QImage((uchar*) Q_frame.data, Q_frame.cols,Q_frame.rows, Q_frame.step, QImage::Format_RGB888);
             ui->summary_label->setPixmap(QPixmap::fromImage(image3));
             ui->summary_label->setScaledContents( true );
             ui->summary_label->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
-
-            cvtColor(cap1_frame,Q_frame,CV_BGR2GRAY);
+/*
+            //cvtColor(frame,Q_frame,CV_BGR2GRAY);
             QImage image4= QImage((uchar*) Q_frame.data, Q_frame.cols,Q_frame.rows, Q_frame.step, QImage::Format_Grayscale8);
             ui->summary_label2->setPixmap(QPixmap::fromImage(image4));
             ui->summary_label2->setScaledContents( true );
             ui->summary_label2->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
-
+*/
             //cout<<"frame should have been written"<<endl;
-            waitKey(33);
+
+                    waitKey(33);
 
 
   }
