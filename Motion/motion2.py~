@@ -1,0 +1,90 @@
+import imutils
+import numpy as np
+import cv2
+import time
+import matplotlib.pyplot as plt
+
+#convert 32 bit frame to a 8 bit frame and show it like an 8 bit frame
+#build a classifier
+#run GUI
+#Debug GUI
+#study signals
+
+#cap = cv2.VideoCapture(0);
+cap = cv2.VideoCapture('/home/sumakar/TESTVID.mp4');
+
+ret, Prev_frame1 = cap.read()
+a=Prev_frame1.shape
+a1=a[0],a[1],1
+accumulate_frame=np.zeros(a1,np.uint32)
+Prev_frame=cv2.cvtColor(Prev_frame1, cv2.COLOR_BGR2GRAY);
+
+result = Prev_frame;
+d1 = Prev_frame;
+d2 = Prev_frame;
+i = 0;
+cXo=0;
+cYo=0;
+cX=0;
+cY=0
+Slope_list=[]
+landsilde_counter=0;
+
+while 1:
+#while(cap.isOpened()):
+    ret1, Current_frame1 = cap.read()
+    ret2, Next_frame1 = cap.read()
+    if(ret1==False):
+        break
+    Current_frame = cv2.cvtColor(Current_frame1, cv2.COLOR_BGR2GRAY)
+    Next_frame = cv2.cvtColor(Next_frame1, cv2.COLOR_BGR2GRAY)
+
+    cv2.absdiff(Prev_frame, Next_frame, d1);
+    cv2.absdiff(Current_frame, Next_frame, d2);
+
+    if cv2.waitKey(30) & 0xFF == ord('q'):
+	break
+    cv2.bitwise_and(d1, d2, result);
+    #use threshold of 15 for TESTVID of praveen sir for testing your face use 35
+    i,result=cv2.threshold(result,15,255,cv2.THRESH_BINARY)#threshold value and result is returned
+
+    m=cv2.moments(result,True)
+    a = cv2.mean(result);
+    #print(cv2.mean(result)[0])
+
+    if((m["m00"]>0)&(a[0]>0.3)):
+
+        #print(m["m10"] / m["m00"], m["m01"] / m["m00"]);
+        cX=int(m["m10"] / m["m00"]);
+        cY = int(m["m01"] / m["m00"]);
+        cv2.circle(Current_frame1, (cX, cY), 7, (255, 255, 255), -1)
+        cv2.circle(result, (cX, cY), 7, (255, 255, 255), -1)
+        #print landsilde_counter
+        #print(cv2.mean(result)[0])
+        #print cX,cXo,cY,cYo
+        if (((cXo-cX)!=0) and (cYo-cY)!=0):
+            #print 'z='#,z
+            #print (cYo-cY)/(cXo-cX)
+            Slope_list.append((cYo-cY)/(cXo-cX))
+	    print Slope_list	
+            cv2.imshow("cf",Current_frame1)
+            landsilde_counter=landsilde_counter+1;
+
+    if(landsilde_counter>25): #landslide counter =10 for testvid and 20 for face
+        #print("landslide :");
+        #print(cv2.mean(result)[0])
+        #z=time.time()-z
+        #print 'delta = ',z
+        cv2.imwrite("landslide.jpg",Current_frame);
+        time.sleep(3)
+        landsilde_counter=0;
+
+    cXo=cX;cYo=cY;
+
+
+
+    cv2.imshow("sum", result);
+    cv2.imshow("sum1 ", Current_frame1);
+
+    #print(cv2.mean(result))
+    #print(cX+" "+cY);
